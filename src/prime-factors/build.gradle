@@ -1,0 +1,38 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+    id "io.micronaut.application" version '1.0.5'
+}
+
+version "0.1"
+group "prime.factors"
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+micronaut {
+    runtime "netty"
+    testRuntime "junit5"
+    processing {
+        incremental true
+        annotations "prime.factors.*"
+    }
+}
+
+dependencies {
+    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut:micronaut-http-client")
+    runtimeOnly("ch.qos.logback:logback-classic")
+}
+
+mainClassName = "prime.factors.Application"
+java {
+    sourceCompatibility = JavaVersion.toVersion('1.8')
+    targetCompatibility = JavaVersion.toVersion('1.8')
+}
+
+
+
+
