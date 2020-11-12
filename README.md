@@ -1,8 +1,29 @@
 # OCI Autoscaling Getting Started
 
-```
-docker run --rm jordi/ab -v 2 http://`hostname`:8080/factorization/12345678909
-```
+## Create stack
+
+We are going to create an Instance Pool and enable Autoscaling.
+
+We are going to add a Load Balancer to dispatch request to the instances evenly.
+
+> TODO terraform script
+
+## Stress CPU to autoscale
+
+For creating stress on the system we are going to use [Apache Benchmark](https://httpd.apache.org/docs/2.4/programs/ab.html)
+
+From a Linux instance, install the Apache tools:
+
+`sudo yum update`
+`sudo yum install httpd-tools`
+
+Run `ab` with:
+
+`ab -n 50000000 -c 100 http://<loadbalancer_public_ip>:8080/factorization/12345678909`
+
+From docker:
+
+`docker run --rm jordi/ab -n 50000000 -c 100 -v 2 http://<loadbalancer_public_ip>:8080/factorization/12345678909`
 
 VM configuration
 
