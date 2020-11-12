@@ -8,6 +8,14 @@ We are going to add a Load Balancer to dispatch request to the instances evenly.
 
 > TODO terraform script
 
+## Build the App
+
+Under `src` we have a Java application:
+
+`./gradlew shadowJar`
+
+It is going to generate a file `build/libs/prime-factors-0.1-all.jar`
+
 ## Stress CPU to autoscale
 
 For creating stress on the system we are going to use [Apache Benchmark](https://httpd.apache.org/docs/2.4/programs/ab.html)
