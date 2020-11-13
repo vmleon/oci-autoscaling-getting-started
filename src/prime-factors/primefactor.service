@@ -1,0 +1,16 @@
+[Unit]
+Description=Prime Factor App
+[Service]
+User=opc
+
+WorkingDirectory=/home/opc/prime-factors-shadow-0.1
+
+ExecStart=/home/opc/prime-factors-shadow-0.1/bin/prime-factors
+
+SuccessExitStatus=143
+TimeoutStopSec=5
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
