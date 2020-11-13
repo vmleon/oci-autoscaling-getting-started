@@ -1,7 +1,5 @@
 # OCI Autoscaling Getting Started
 
-## Create stack
-
 We are going to create an Instance Pool and enable Autoscaling.
 
 We are going to add a Load Balancer to dispatch request to the instances evenly.
@@ -30,13 +28,13 @@ The creation of resources will be something like this:
 
 `Configured VM` -> `Custom Image` -> `Brand new VM` -> `Instance Configuration` -> `Instance Pool` -> `Autoscaling`
 
-### Create bastion host
+### Create bastion host
 
 Provision a bastion host on the public subnet, assign public IP address and add public ssh key.
 
 On your computer add the private ssh key with `ssh-add -K ~/.ssh/id_rsa`.
 
-### Create VM template
+### Create VM template
 
 SSH into the bastion host `ssh -A opc@<bastion_host_ip>`
 
@@ -49,10 +47,6 @@ Add port `8080/tcp` on the local firewall with:
 - `sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent`
 - `sudo firewall-cmd --reload`
 
-```bash
-unzip prime-factors-shadow-0.1.zip
-```
-
 Copy the files to the virtual machine through the bastion host.
 
 Zip file with the application:
@@ -61,6 +55,10 @@ Zip file with the application:
 
 Unit file to set it up as a service:
 `scp -o "ProxyCommand ssh -W %h:%p opc@<bastion_host_ip>" src/prime-factors/primefactor.service opc@<private_server_ip>:/home/opc`
+
+Unzip the file:
+
+`unzip prime-factors-shadow-0.1.zip`
 
 Move the file to the `systemd` folder:
 
@@ -77,11 +75,11 @@ Check the logs with `journalctl -f -u primefactor`
 
 > TODO create `Custom Image` -> `Brand new VM` -> `Instance Configuration` -> `Instance Pool`
 
-## Autoscale on
+## Autoscale on
 
 > TODO create autoscaling from the instance pool
 
-## Load Balancer
+## Load Balancer
 
 > TODO create load balancer
 
@@ -92,6 +90,7 @@ For creating stress on the system we are going to use [Apache Benchmark](https:/
 Provision a linux instance on the private subnet and install the Apache tools:
 
 `sudo yum update`
+
 `sudo yum install httpd-tools`
 
 Run `ab` with:
