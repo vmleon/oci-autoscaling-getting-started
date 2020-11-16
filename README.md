@@ -75,15 +75,31 @@ Check the logs with `journalctl -f -u primefactor`
 
 > TODO create `Custom Image` -> `Brand new VM` -> `Instance Configuration` -> `Instance Pool`
 
+Create a custom image from the running instance. (Downtime expected)
+
+Then, use the custom image to launch a new instance.
+
+Create a Instance Configuration from the brand new instance.
+
+Finally, create an instance pool on all the Availability Domains of your region. (Some regions only have one AD, if so... pay attention to Fault Domains).
+
 ## Autoscale on
 
-> TODO create autoscaling from the instance pool
+Create an autoscaling configuration from the instance pool.
 
 ## Load Balancer
 
-> TODO create load balancer
+Create a Load Balancer 100 Mbps on the same VCN, and public subnet, as the bastion host.
+
+Don't add the backend configuration initially, we will do this later.
+
+Make sure you set the proper Health Check on `HTTP on port 8080, GET /factorization/1 200 OK`.
+
+Listener, for simplicity, on `HTTP` port `80`.
 
 ## Stress CPU to scale out
+
+Create a new instance to act as stressor.
 
 For creating stress on the system we are going to use [Apache Benchmark](https://httpd.apache.org/docs/2.4/programs/ab.html)
 
@@ -96,3 +112,7 @@ Provision a linux instance on the private subnet and install the Apache tools:
 Run `ab` with:
 
 `ab -n 50000000 -c 100 http://<loadbalancer_public_ip>:8080/factorization/12345678909`
+
+To run in the background:
+
+`nohup ab -n 50000000 -c 100 http://<loadbalancer_public_ip>:8080/factorization/12345678909 > ab.log 2>&1 &`
