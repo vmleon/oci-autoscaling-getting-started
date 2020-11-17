@@ -6,6 +6,18 @@ We are going to add a Load Balancer to dispatch request to the instances evenly.
 
 > Keep in mind that to create an instance configuration that includes the custom setup from an instance, you must first create a custom image from the instance, and then use the custom image to launch a new instance. Finally, create the instance configuration based on the instance that you created from the custom image.
 
+The final result should give you the CPU stress metrics:
+
+![CPU stress](./images/cpu.png)
+
+A busy Load Balancer:
+
+![Active Connections](./images/loadbalancer.png)
+
+And a scale out and in of the Intance Pool:
+
+![Intance Pool size](images/pool.png)
+
 ## Build the App
 
 Under `src` we have a Java application:
@@ -111,8 +123,8 @@ Provision a linux instance on the private subnet and install the Apache tools:
 
 Run `ab` with:
 
-`ab -n 50000000 -c 100 http://<loadbalancer_public_ip>:8080/factorization/12345678909`
+`ab -n 5000000 -c 100 http://<loadbalancer_public_ip>:8080/factorization/12345678909`
 
 To run in the background:
 
-`nohup ab -n 50000000 -c 100 http://<loadbalancer_public_ip>:8080/factorization/12345678909 > ab.log 2>&1 &`
+`nohup ab -n 5000000 -c 100 http://<loadbalancer_public_ip>:8080/factorization/12345678909 > ab.log 2>&1 &`
