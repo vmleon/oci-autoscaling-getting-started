@@ -14,7 +14,7 @@ A busy Load Balancer:
 
 ![Active Connections](./images/loadbalancer.png)
 
-And a scale out and in of the Intance Pool size:
+The Intance Pool size should scale out and then in:
 
 ![Intance Pool size](images/pool.png)
 
