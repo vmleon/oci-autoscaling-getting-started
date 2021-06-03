@@ -1,10 +1,12 @@
 # OCI Autoscaling Getting Started
 
-We are going to create an Instance Pool and enable Autoscaling.
+Autoscaling is the ability to set thresholds on your initial number of resources, monitor those thresholds and react when they are reached. For example, a virtual machine with a 60% CPU utilization threshold can tell you it is the moment to bring more power to the table. Oracle Cloud allow you to do that in few clicks, and this is how.
 
-We are going to add a Load Balancer to dispatch request to the instances evenly.
+We will create an Instance Pool and enable Autoscaling.
 
-> Keep in mind that to create an instance configuration that includes the custom setup from an instance, you must first create a custom image from the instance, and then use the custom image to launch a new instance. Finally, create the instance configuration based on the instance that you created from the custom image.
+We will add a Load Balancer to dispatch request to the instances evenly.
+
+> Keep in mind that to create an instance configuration that includes the custom setup from an instance, you must first create a custom image from the instance and then use the custom image to launch a new instance. Finally, create the instance configuration based on the instance that you created from the custom image.
 
 The final result should give you the CPU stress metrics:
 
@@ -20,7 +22,7 @@ The Intance Pool size should scale out and then in:
 
 ## Build the App
 
-Under `src/prime-factors` we have a simple Java application that calculate prime factors for a given number through a RESTful endpoint.
+Under `src/prime-factors` we have a simple Java application that calculates prime factors for a given number through a RESTful endpoint.
 
 We can generate the distributable zip with everything needed to run the application with `gradle`:
 
@@ -30,15 +32,15 @@ It is going to generate a file `build/distributions/prime-factors-shadow-0.1.zip
 
 ## Environment
 
-We need a Virtual Cloud Network with public and private subnet.
+We need a Virtual Cloud Network with a public and a private subnet.
 
-On the public subnet we will set up the public load balancer and the bastion host.
+On the public subnet, we will set up the public load balancer and the bastion host.
 
-On the private subnet we will start with a VM template where we are going to install the Java application and add an ingress rule on the local firewall.
+On the private subnet, we will start with a VM template where we will install the Java application and add an ingress rule on the local firewall.
 
-We are going to add a Load Balancer with a public IP to reach the JAVA app running on the VMs.
+We will add a Load Balancer with a public IP to reach the JAVA app running on the VMs.
 
-The Bastion host will be used for secure access to private machines inside the private subnet.
+We will use the Bastion host for secure access to private machines inside the private subnet.
 
 ![Diagram](./images/diagram.png)
 
@@ -48,9 +50,9 @@ The road we are taking will help you to create resources needed, something like 
 
 ### Create bastion host
 
-Provision a bastion host on the public subnet, assign public IP address and add public ssh key.
+Provision a bastion host on the public subnet, assign a public IP address and add public ssh key.
 
-On your computer add the private ssh key with `ssh-add -K ~/.ssh/id_rsa`.
+On your computer, add the private ssh key with `ssh-add -K ~/.ssh/id_rsa`.
 
 ### Create VM template
 
@@ -101,7 +103,7 @@ Create a custom image from the running instance. (Downtime expected)
 
 Then, use the custom image to launch a new instance.
 
-Create a Instance Configuration from the brand new instance.
+Create an Instance Configuration from the brand new instance.
 
 Finally, create an instance pool on all the Availability Domains of your region. (Some regions only have one AD, if so... pay attention to Fault Domains).
 
@@ -109,21 +111,21 @@ Create an autoscaling configuration from the instance pool.
 
 ## Load Balancer
 
-Create a Load Balancer on the same VCN, and public subnet, as the bastion host.
+Create a Load Balancer on the same VCN and public subnet as the bastion host.
 
-Don't add the backend configuration initially, we will do this later.
+Don't add the backend configuration initially; we will do this later.
 
-Make sure you set the proper Health Check on `HTTP on port 8080, GET /factorization/1 200 OK`.
+Ensure you set the proper Health Check on `HTTP on port 8080, GET /factorization/1 200 OK`.
 
 Listener, for simplicity, on `HTTP` port `80`.
 
 ## Stress CPU to scale out
 
-Create a new instance to act as stressor.
+Create a new instance to act as a stressor.
 
-For creating stress on the system we are going to use [Apache Benchmark](https://httpd.apache.org/docs/2.4/programs/ab.html)
+For creating stress on the system, we are going to use [Apache Benchmark](https://httpd.apache.org/docs/2.4/programs/ab.html)
 
-Provision a linux instance on the private subnet and install the Apache tools:
+Provision a Linux instance on the private subnet and install the Apache tools:
 
 `sudo yum update`
 
